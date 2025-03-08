@@ -13,6 +13,7 @@ export const signInUser = (email, password) => {
     })
     .catch((error) => {
         console.log(error)
+        window.alert("Ingrese correctamente sus datos!");
     });
 }
 

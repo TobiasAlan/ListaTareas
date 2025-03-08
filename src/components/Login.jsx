@@ -3,6 +3,7 @@ import React, { useEffect, useState} from 'react'
 import { signInUser } from "../config/authCall";
 import { useAuth } from "../hooks/useAuth";
 import { Navigate, useNavigate } from 'react-router-dom';
+import "../styles.css"
 
 export default function Login () {
     const { user } = useAuth();
@@ -20,8 +21,6 @@ export default function Login () {
         if(user){
             setWarning(''); //Esto tal vez sea util para cuando se salga de la sesión
             navigate('/Tasklist')
-        } else {
-            setWarning('Ingrese correctamente sus datos!');
         }
     }, [user]);
 
@@ -33,29 +32,44 @@ export default function Login () {
     }
     const login = () => {
         signInUser(userName, userPass);
+        
     }
 
     return (
-        <div>
-            <>¡Bienvenido a la lista de Tareas</>
-            <div id="advertenciaLogin">{warning}</div>
-            <div id="FilasLogin"
-            style={{display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',}}>
-            <Row>
-                <Col>
-                <Input size="small" placeholder="Correo del usuario"
-                value={userName} onChange={cambiarUserName}/>
-                </Col>
-                <Col>
-                <Input.Password size="small" placeholder="Contraseña"
-                value={userPass} onChange={cambiarUserPass}/>
-                </Col>
-            </Row>
-            </div>
+        <div style={{
+            alignItems: 'center'
             
-            <Button onClick={login}>Ingresar</Button>
+        }}>
+        <div id="ParteIzquierdaLogin">
+
         </div>
+        <div>
+        <>¡Bienvenido a la lista de Tareas</>
+        <div id="FilasLogin"
+        style={{display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',}}>
+        <Row>
+            <Col>
+            <Input size="small" placeholder="Correo del usuario"
+            value={userName} onChange={cambiarUserName}
+            style={{
+                margin: 30
+            }}/>
+            </Col>
+            <Col>
+            <Input.Password size="small" placeholder="Contraseña"
+            value={userPass} onChange={cambiarUserPass}
+            style={{
+                margin: 30
+            }}/>
+            </Col>
+        </Row>
+        </div>
+        
+        <Button onClick={login}>Ingresar</Button>
+        </div>
+        </div>
+        
     );
 }
