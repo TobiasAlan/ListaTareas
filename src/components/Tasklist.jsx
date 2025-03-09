@@ -175,6 +175,61 @@ export default function Tasklist() {
         )
     }
 
+    const MostrarLayoutTareas = ( {puedeVer = false }) => {
+        if(!puedeVer) return <></>
+
+        return (
+            <Layout>
+            <Layout>
+            <Header style={{marginRight:"10", background:'#0060A0',
+                borderBlockStyle:'dashed',
+                textAlign:'justify'
+            }}>
+            <Menu 
+                mode="horizontal"
+                theme="#0060A0"
+                items={barraMenuSuperior}
+                selectedKeys={[tareaSeleccionada]}
+                onClick={seleccionarUnaTarea}
+                style={{
+                    color:"white"
+                }}
+                />
+            </Header>
+            
+            </Layout>
+            <div style={{background:"white"}}>
+
+            <Col style={{alignItems:"center"}}>
+            <BotonParaBorrarTareaSeleccionada
+            puedeBorrar = {localUser == null ? false : localUser.puedeBorrar}/>
+            <h3>
+            {localTareas[tareaSeleccionada] != undefined  || localTareas[tareaSeleccionada] == [] ?
+            localTareas[tareaSeleccionada].title :
+            ""}
+            
+            
+            </h3>
+
+            
+            </Col>
+            
+            <div style={{margin:20}}>
+            Descripcion:<br/>
+            {localTareas[tareaSeleccionada] != undefined  || localTareas[tareaSeleccionada] == [] ?
+            localTareas[tareaSeleccionada].description :
+            ""}
+            </div>
+
+            <div style={{paddingBottom:20}} /> 
+            </div>
+
+            
+
+            </Layout>
+        );
+    }
+
     return (
         <div>
 
@@ -210,55 +265,10 @@ export default function Tasklist() {
                 }}/>
 
                 <Col flex={10}>
-                    <Layout>
-                    <Layout>
-                    <Header style={{textAlign:"start", marginRight:"10", background:'#0060A0',
-                        borderBlockStyle:'dashed',
-                        textAlign:'justify'
-                    }}>
-                    <Menu 
-                        mode="horizontal"
-                        theme="#0060A0"
-                        items={barraMenuSuperior}
-                        selectedKeys={[tareaSeleccionada]}
-                        onClick={seleccionarUnaTarea}
-                        style={{
-                            color:"white"
-                        }}
-                        />
-                    </Header>
-                    
-                    </Layout>
-                <div style={{background:"white"}}>
-
-                <Col style={{alignItems:"center"}}>
-                <BotonParaBorrarTareaSeleccionada
-                puedeBorrar = {localUser == null ? false : localUser.puedeBorrar}/>
-                <h3>
-                {localTareas[tareaSeleccionada] != undefined  || localTareas[tareaSeleccionada] == [] ?
-                localTareas[tareaSeleccionada].title :
-                ""}
-                
-                
-                </h3>
-
-                
+                    <MostrarLayoutTareas puedeVer = {
+                        localUser == null ? false : localUser.puedeVer
+                    } />
                 </Col>
-                
-                <div style={{margin:20}}>
-                Descripcion:<br/>
-                {localTareas[tareaSeleccionada] != undefined  || localTareas[tareaSeleccionada] == [] ?
-                localTareas[tareaSeleccionada].description :
-                ""}
-                </div>
-
-                <div style={{paddingBottom:20}} /> 
-                </div>
-
-                
-
-                </Layout>
-                    </Col>
 
             </Row>
         </div>
