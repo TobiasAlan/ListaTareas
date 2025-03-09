@@ -237,7 +237,12 @@ export default function Tasklist() {
                     mode="horizontal"
                     items={barraMenuSuperior}
                     selectedKeys={[tareaSeleccionada]}
-                    onClick={seleccionarUnaTarea}/>
+                    onClick={seleccionarUnaTarea}
+                    style={{
+                        backgroundColor: "white",
+                        fontPalette:"light",
+                    }}
+                    />
                 </Header>
                 
                 </Layout>
