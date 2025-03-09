@@ -1,6 +1,6 @@
 import { Button, Col, Input, Layout, Row } from "antd";
 import React, { useEffect, useState} from 'react'
-import { signInUser, signUpUser } from "../config/authCall";
+import { signInUser } from "../config/authCall";
 import { useAuth } from "../hooks/useAuth";
 import { useNavigate } from 'react-router-dom';
 import "../styles.css"
@@ -13,10 +13,6 @@ export default function Login () {
 
     const [userName, setUserName] = useState('');
     const [userPass, setUserPass] = useState('');
-
-    const [newUserName, setNewUserName] = useState('');
-    const [newUserMail, setNewUserMail] = useState('');
-    const [newUserPass, setNewUserPass] = useState('');
 
     //Tal vez sea mejor crear un State para cuando se ingrese mal
     //la contraseña o el correo?
@@ -44,37 +40,6 @@ export default function Login () {
         
     }
 
-    const cambiarNewUserName = (ValorInput) => {
-        setNewUserName(ValorInput.target.value);
-    } 
-    const cambiarNewUserMail = (ValorInput) => {
-        setNewUserMail(ValorInput.target.value);
-    }
-    const cambiarNewUserPass = (ValorInput) => {
-        setNewUserPass(ValorInput.target.value);
-    }
-
-    const crearCuenta = () => {
-        //Condicionales para crear el usuario
-        if(newUserName.length < 5){
-            window.alert("Ingrese un nombre de al menos 5 caracteres!");
-            return;
-        }
-        if(newUserMail == "") {
-            window.alert("Ingrese correctamente un correo electronico!");
-            return;
-        }
-        if(newUserPass.length < 6) {
-            window.alert("Ingrese una contraseña de al menos 6 caracteres de largo");
-            return;
-        }
-
-        signUpUser(newUserName, newUserMail, newUserPass);
-
-        console.log("Cuenta creada!");
-        
-
-    }
 
     return (
         <Layout style={{alignContent:'end'}}>
@@ -103,40 +68,9 @@ export default function Login () {
             }}/>
 
             <div style={{textAlign:'end'}}>
+            <Button onClick={() => {navigate('/Signup')}} style={{ background: 'green',borderColor:'black'}}>CREAR USUARIO</Button>
             <Button onClick={login} style={{borderColor:'black'}}>INGRESAR</Button>
             </div>
-
-            <div>
-
-            <div style={{paddingTop:80}}/>
-            
-            <Col>
-            <Input size="small" placeholder="Nombre Usuario"
-            value={newUserName} onChange={cambiarNewUserName}
-            style={{borderColor:'black', borderStyle:"double"}}
-            />
-            </Col>
-            <div style={{paddingTop:20}}/>
-            <Col>
-            <Input size="small" placeholder="Correo"
-            value={newUserMail} onChange={cambiarNewUserMail}
-            style={{borderColor:'black', borderStyle:"double"}}
-            />
-            </Col>
-            <div style={{paddingTop:20}}/>
-            <Col>
-            <Input.Password size="small" placeholder="Contraseña"
-            value={newUserPass} onChange={cambiarNewUserPass}
-            style={{ borderColor:'black', borderStyle:"double"}}
-            />
-            </Col>
-
-            <div style={{textAlign:'end'}}>
-            <div style={{paddingTop:20}}/>
-            <Button onClick={crearCuenta} style={{borderColor:'black'}}>CREAR CUENTA</Button>
-            </div>
-            </div>
-            <div style={{paddingBottom:20}}/>
 
             </Content>
             
