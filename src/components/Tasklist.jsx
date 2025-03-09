@@ -1,7 +1,7 @@
 import { Button, Col, Divider, Input, Layout, List, Menu, Row, Typography } from "antd";
 import { memo, useEffect, useState } from "react";
 import { agregarTareaAFirestore, borrarTareaDeFirestore, obtenerTareas, readDataFirestore } from "../config/firestoreCalls";
-import { LogoutOutlined, PlusOutlined } from "@ant-design/icons";
+import { DeleteColumnOutlined, DeleteFilled, LogoutOutlined, PlusOutlined } from "@ant-design/icons";
 import { useAuth } from "../hooks/useAuth";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 
@@ -115,6 +115,9 @@ export default function Tasklist() {
     }
 
     const borrarTarea = async (tituloTarea) => {
+        if(tituloTarea == null){
+            return
+        }
         console.log("Titulo de tarea a borrar")
         console.log(tituloTarea)
         await borrarTareaDeFirestore(tituloTarea);
@@ -133,7 +136,7 @@ export default function Tasklist() {
             dataSource={localTareas}
             renderItem={(tarea, index) => (
                 <List.Item
-                actions={[<Button onClick={() => {borrarTarea(tarea.title+localUser.Nombre)}}>Borrar</Button>]}>
+                actions={[<Button onClick={() => {borrarTarea(tarea.title)}}>Borrar</Button>]}>
                     <List.Item.Meta
                         title={<>{tarea.title}</>}
                         description={<>{tarea.description}</>}
@@ -177,9 +180,34 @@ export default function Tasklist() {
         setTareaSeleccionada(Number(e.key) - 1);
     }
 
+    const borrarTareaSeleccionada = async () => {
+        const localTareaSeleccionada = localTareas[tareaSeleccionada]
+        console.log(localTareaSeleccionada)
+        if(localTareaSeleccionada == [] || localTareaSeleccionada == undefined){
+            console.log("No hay tarea seleccionada!")
+            window.alert("No hay tarea seleccionada!")
+            return
+        }
+
+        console.log("Titulo de tarea a borrar")
+        console.log(localTareaSeleccionada.title)
+        await borrarTareaDeFirestore(localTareaSeleccionada.title);
+
+        setTareas(localTareas);
+        window.alert("Tarea borrada correctamente!");
+    }
+
+    const BotonParaBorrarTareaSeleccionada = ( {puedeBorrar = false }) => {
+        return (puedeBorrar ?
+            <Button onClick={borrarTareaSeleccionada} ><DeleteFilled/></Button>
+            :
+            <></>
+        )
+    }
+
     return (
         <div>
-            <LogoutOutlined onClick={logout}/>
+            <Button onClick={logout} color="white"> Salir </Button>
             <Divider orientation="center">Lista Tareas</Divider>
             <ListaConBorrado
                         puedeBorrar={localUser == null ? false : localUser.puedeBorrar}
@@ -202,9 +230,8 @@ export default function Tasklist() {
             </div>
 
             <Layout>
-            <Button onClick={logout} color="white"> Salir </Button>
+
                 <Layout>
-                    vewnvjekwn
                 <Header style={{textAlign:"start", marginRight:"10"}}>
                 <Menu 
                     mode="horizontal"
@@ -220,16 +247,29 @@ export default function Tasklist() {
                 <Footer>
                 </Footer>
             <div>
-            <h1>
+
+            <Col style={{alignItems:"center"}}>
+            <h3>
             {localTareas[tareaSeleccionada] != undefined  || localTareas[tareaSeleccionada] == [] ?
             localTareas[tareaSeleccionada].title :
             ""}
-            </h1>
+            
+            <BotonParaBorrarTareaSeleccionada
+            puedeBorrar = {localUser == null ? false : localUser.puedeBorrar}
+            style={{padding:20}} />
+            </h3>
+
+            
+            </Col>
+           
             {localTareas[tareaSeleccionada] != undefined  || localTareas[tareaSeleccionada] == [] ?
             localTareas[tareaSeleccionada].description :
             ""}
+
+
             </div>
 
+            
 
             </Layout>
         </div>

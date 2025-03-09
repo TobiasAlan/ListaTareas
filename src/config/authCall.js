@@ -1,5 +1,6 @@
 import firebaseAcademia from "./firebaseConfig";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { agregarUsuarioCreado } from "./firestoreCalls";
 const auth = getAuth(firebaseAcademia);
 
 export const signInUser = (email, password) => {
@@ -13,8 +14,16 @@ export const signInUser = (email, password) => {
     })
     .catch((error) => {
         console.log(error)
-        window.alert("Ingrese correctamente sus datos!");
     });
+}
+
+export const signUpUser = async (name, email, password) => {
+    createUserWithEmailAndPassword(auth, email, password)
+        .then(async (userCredential) => {
+            const user = userCredential.user;
+
+            await agregarUsuarioCreado(email, name);
+        })
 }
 
 export const logoutFirebase = () => {

@@ -10,6 +10,12 @@ import {collection,
     where
     } from 'firebase/firestore'
 
+
+function generadorValoresAleatorios() {
+    const lista = new Uint32Array(15);
+    return crypto.getRandomValues(lista);
+}
+
 const db = getFirestore(firebaseAcademia);
 export const readDataFirestore = async (path, child, value) => {
     const q = query(collection(db, path), where(child, "==", value))
@@ -36,8 +42,19 @@ export const obtenerTareas = async () => {
     return tareasGeneradas
 }
 
+//Por default los usuarios generados solo pueden ver las tareas
+export const agregarUsuarioCreado = async (email, Nombre)=> {
+    await setDoc(doc(db, "users", Nombre), {
+        Correo: email,
+        Nombre: Nombre,
+        puedeBorrar: false,
+        puedeEscribir: false,
+        puedeVer: true
+    });
+}
+
 export const agregarTareaAFirestore = async (titulo, descripcion, fecha, creador) => {
-    await setDoc(doc(db, "tareas", titulo+creador), {
+    await setDoc(doc(db, "tareas", titulo), {
         Creador: creador,
         Descripcion: descripcion,
         Fecha: fecha,
