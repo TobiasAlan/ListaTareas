@@ -2,7 +2,7 @@ import { Button, Col, Input, Layout, Row } from "antd";
 import React, { useEffect, useState} from 'react'
 import { signInUser, signUpUser } from "../config/authCall";
 import { useAuth } from "../hooks/useAuth";
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import "../styles.css"
 import { Content, Header } from "antd/es/layout/layout";
 
@@ -77,7 +77,7 @@ export default function Login () {
     }
 
     return (
-        <Layout>
+        <Layout style={{alignContent:'end'}}>
             <Header style={{background:"#0060A0"}}>
                 <div style={{color: 'white', borderColor:"#0060A0"}}>¡BIENVENIDO A LA LISTA DE TAREAS</div>
             </Header>
@@ -99,9 +99,13 @@ export default function Login () {
                 />
                 </Col>
             </div>
-            <div style={{paddingTop:20}}/>
-            <Button onClick={login} style={{borderColor:'black'}}>Ingresar</Button>
-            
+            <div style={{paddingTop:20
+            }}/>
+
+            <div style={{textAlign:'end'}}>
+            <Button onClick={login} style={{borderColor:'black'}}>INGRESAR</Button>
+            </div>
+
             <div>
 
             <div style={{paddingTop:80}}/>
@@ -127,9 +131,9 @@ export default function Login () {
             />
             </Col>
 
-            <div>
+            <div style={{textAlign:'end'}}>
             <div style={{paddingTop:20}}/>
-            <Button onClick={crearCuenta} style={{borderColor:'black'}}>Crear cuenta</Button>
+            <Button onClick={crearCuenta} style={{borderColor:'black'}}>CREAR CUENTA</Button>
             </div>
             </div>
             <div style={{paddingBottom:20}}/>

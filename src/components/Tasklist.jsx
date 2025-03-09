@@ -1,9 +1,10 @@
-import { Button, Col, Divider, Input, Layout, List, Menu, Row, Typography } from "antd";
+import { Button, Col, Divider, Layout, Menu, Row,} from "antd";
 import { memo, useEffect, useState } from "react";
 import { agregarTareaAFirestore, borrarTareaDeFirestore, obtenerTareas, readDataFirestore } from "../config/firestoreCalls";
-import { DeleteColumnOutlined, DeleteFilled, LogoutOutlined, PlusOutlined } from "@ant-design/icons";
+import { DeleteFilled, PlusOutlined } from "@ant-design/icons";
 import { useAuth } from "../hooks/useAuth";
-import { Content, Footer, Header } from "antd/es/layout/layout";
+import { Header } from "antd/es/layout/layout";
+import TextArea from "antd/es/input/TextArea";
 
 
 export default function Tasklist() {
@@ -39,7 +40,7 @@ export default function Tasklist() {
             const descripcion_2 = "(" + tareaEnMano.Creador.stringValue + ", " + tareaEnMano.Fecha.stringValue + ")."
             const objetoTareaPreparada = {
                 title: titulo,
-                description: descripcion_1 + " " +descripcion_2
+                description: (descripcion_1 + " " +descripcion_2)
             }
             console.log("Obteniendo lista Preparada")
             console.log(listaPreparada)
@@ -47,7 +48,7 @@ export default function Tasklist() {
         }
 
         setBarraMenuSuperior(listaNumeros.map((key) => ({
-            key, label: 'Tarea' + key
+            key, label: 'Tarea ' + key 
         })))
         console.log(listaPreparada)
         return listaPreparada;
@@ -129,52 +130,9 @@ export default function Tasklist() {
         window.alert("Tarea borrada correctamente!");
     }
 
-    /*
-    const ListaConBorrado = memo(( {puedeBorrar, puedeVer}) => {
-        if(puedeBorrar) {
-            return <List
-            itemLayout="horizontal"
-            header={<div>Lista de tareas</div>}
-            footer={<div>Fin de la Lista de Tareas</div>}
-            bordered
-            dataSource={localTareas}
-            renderItem={(tarea, index) => (
-                <List.Item
-                actions={[<Button onClick={() => {borrarTarea(tarea.title)}}>Borrar</Button>]}>
-                    <List.Item.Meta
-                        title={<>{tarea.title}</>}
-                        description={<>{tarea.description}</>}
-                    />
-                </List.Item>
-            )}
-        />
-        }
-
-        if(puedeVer){
-            return <List
-                itemLayout="horizontal"
-                header={<div>Lista de tareas</div>}
-                footer={<div>Fin de la Lista de Tareas</div>}
-                bordered
-                dataSource={localTareas}
-                renderItem={(tarea, index) => (
-                    <List.Item>
-                        <List.Item.Meta
-                            title={<>{tarea.title}</>}
-                            description={<>{tarea.description}</>}
-                        />
-                    </List.Item>
-                )}
-            />
-        }
-
-        return ""
-    });
-    */
-
     const BotonParaAgregarTarea = ( {puedeEscribir = false}) => {
         return (puedeEscribir ? 
-            <Button onClick={agregarTarea}> <PlusOutlined/></Button> :
+            <Button onClick={agregarTarea} style={{paddingInline:'45%'}}> <PlusOutlined/></Button> :
             ""
         )
     }
@@ -204,7 +162,14 @@ export default function Tasklist() {
 
     const BotonParaBorrarTareaSeleccionada = ( {puedeBorrar = false }) => {
         return (puedeBorrar ?
-            <Button onClick={borrarTareaSeleccionada} ><DeleteFilled/></Button>
+            <div style={{textAlign:'end'}}>
+            <Button onClick={borrarTareaSeleccionada} 
+            style={{background:'red'}}
+            size="small">
+                <DeleteFilled style={{background:'red', color:'white'}}/>
+            </Button>
+            
+            </div>
             :
             <></>
         )
@@ -212,70 +177,90 @@ export default function Tasklist() {
 
     return (
         <div>
-            <Button onClick={logout} color="white"> Salir </Button>
-            <Divider orientation="center">Lista Tareas</Divider>
-            
-            <div id="contenedorAgregarTarea"
-            style={{display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 20}}>
-            <Row>
-            <>Agregar una nueva tarea</>
-                <Input size="small" placeholder="Nombre de la nueva tarea"
-                value={nombreNuevaTarea} onChange={cambiarNombreTarea} />
-                <Input size="small" placeholder="Descripcion de la nueva tarea"
-                value={descripcionNuevaTarea} onChange={cambiarDescripcionTarea} />
-                
-                <BotonParaAgregarTarea 
-                    puedeEscribir = {localUser == null ? false : localUser.puedeEscribir}/>
-            </Row>
-            </div>
 
-            <Layout>
-                <Layout>
-                <Header style={{textAlign:"start", marginRight:"10"}}>
-                <Menu 
-                    mode="horizontal"
-                    theme="dark"
-                    items={barraMenuSuperior}
-                    selectedKeys={[tareaSeleccionada]}
-                    onClick={seleccionarUnaTarea}
-                    style={{
-                        fontPalette:"light",
-                    }}
-                    />
-                </Header>
+            
+            <Row style={{borderBlockStyle:'dashed'}}>
+                <Col flex={5}>
+                <h3>LISTA DE TAREAS</h3>
+                <Divider orientation="center"></Divider>
                 
+                <div id="contenedorAgregarTarea"
+                style={{display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: 20}}>
+                <Row>
+                <div style={{textAlign:'center'}}>Agregar una nueva tarea</div>
+                    <TextArea size="small" placeholder="Nombre de la nueva tarea"
+                    value={nombreNuevaTarea} onChange={cambiarNombreTarea} />
+                    <TextArea size="auto" placeholder="Descripcion de la nueva tarea"
+                    
+                    value={descripcionNuevaTarea} onChange={cambiarDescripcionTarea} />
+                    
+                    <BotonParaAgregarTarea 
+                        puedeEscribir = {localUser == null ? false : localUser.puedeEscribir}/>
+                </Row>
+                </div>
+                <Button onClick={logout} style={{marginTop:20}}> Salir </Button>
+                </Col>
+                
+                <div class='vl' style={{
+                    border:"6px",
+                    height:"500px"
+                }}/>
+
+                <Col flex={10}>
+                    <Layout>
+                    <Layout>
+                    <Header style={{textAlign:"start", marginRight:"10", background:'#0060A0',
+                        borderBlockStyle:'dashed',
+                        textAlign:'justify'
+                    }}>
+                    <Menu 
+                        mode="horizontal"
+                        theme="#0060A0"
+                        items={barraMenuSuperior}
+                        selectedKeys={[tareaSeleccionada]}
+                        onClick={seleccionarUnaTarea}
+                        style={{
+                            color:"white"
+                        }}
+                        />
+                    </Header>
+                    
+                    </Layout>
+                <div style={{background:"white"}}>
+
+                <Col style={{alignItems:"center"}}>
+                <BotonParaBorrarTareaSeleccionada
+                puedeBorrar = {localUser == null ? false : localUser.puedeBorrar}/>
+                <h3>
+                {localTareas[tareaSeleccionada] != undefined  || localTareas[tareaSeleccionada] == [] ?
+                localTareas[tareaSeleccionada].title :
+                ""}
+                
+                
+                </h3>
+
+                
+                </Col>
+                
+                <div style={{margin:20}}>
+                Descripcion:<br/>
+                {localTareas[tareaSeleccionada] != undefined  || localTareas[tareaSeleccionada] == [] ?
+                localTareas[tareaSeleccionada].description :
+                ""}
+                </div>
+
+                <div style={{paddingBottom:20}} /> 
+                </div>
+
+                
+
                 </Layout>
-            <Content></Content>
-            <div style={{background:"white"}}>
+                    </Col>
 
-            <Col style={{alignItems:"center"}}>
-            <h3>
-            {localTareas[tareaSeleccionada] != undefined  || localTareas[tareaSeleccionada] == [] ?
-            localTareas[tareaSeleccionada].title :
-            ""}
-            
-            <BotonParaBorrarTareaSeleccionada
-            puedeBorrar = {localUser == null ? false : localUser.puedeBorrar}
-            style={{padding:20}} />
-            </h3>
-
-            
-            </Col>
-           
-            Descripcion:<br/>
-            {localTareas[tareaSeleccionada] != undefined  || localTareas[tareaSeleccionada] == [] ?
-            localTareas[tareaSeleccionada].description :
-            ""}
-
-
-            </div>
-
-            
-
-            </Layout>
+            </Row>
         </div>
         
     );
