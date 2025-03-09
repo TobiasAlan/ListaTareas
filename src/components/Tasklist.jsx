@@ -101,7 +101,7 @@ export default function Tasklist() {
 
         //Evitar que se agreguen tareas sin contenido
         if(nombreNuevaTarea == "" || descripcionNuevaTarea == ""){
-            console.log("No hay contenido en la nueva tarea!")
+            window.alert("No hay contenido en la nueva tarea!")
             return;
         }
 
@@ -111,7 +111,10 @@ export default function Tasklist() {
             fechaDeCreacion,
             localUser.Nombre
         );
+        setNombreNuevaTarea('');
+        setDescripcionNuevaTarea('');
         setTareas(localTareas);
+        
     }
 
     const borrarTarea = async (tituloTarea) => {
@@ -126,6 +129,7 @@ export default function Tasklist() {
         window.alert("Tarea borrada correctamente!");
     }
 
+    /*
     const ListaConBorrado = memo(( {puedeBorrar, puedeVer}) => {
         if(puedeBorrar) {
             return <List
@@ -166,6 +170,7 @@ export default function Tasklist() {
 
         return ""
     });
+    */
 
     const BotonParaAgregarTarea = ( {puedeEscribir = false}) => {
         return (puedeEscribir ? 
@@ -209,9 +214,7 @@ export default function Tasklist() {
         <div>
             <Button onClick={logout} color="white"> Salir </Button>
             <Divider orientation="center">Lista Tareas</Divider>
-            <ListaConBorrado
-                        puedeBorrar={localUser == null ? false : localUser.puedeBorrar}
-                        puedeVer = {localUser == null ? false : localUser.puedeVer} />
+            
             <div id="contenedorAgregarTarea"
             style={{display: 'flex',
             alignItems: 'center',
@@ -230,28 +233,23 @@ export default function Tasklist() {
             </div>
 
             <Layout>
-
                 <Layout>
                 <Header style={{textAlign:"start", marginRight:"10"}}>
                 <Menu 
                     mode="horizontal"
+                    theme="dark"
                     items={barraMenuSuperior}
                     selectedKeys={[tareaSeleccionada]}
                     onClick={seleccionarUnaTarea}
                     style={{
-                        backgroundColor: "white",
                         fontPalette:"light",
                     }}
                     />
                 </Header>
                 
                 </Layout>
-                
-                <Content>
-                </Content>
-                <Footer>
-                </Footer>
-            <div>
+            <Content></Content>
+            <div style={{background:"white"}}>
 
             <Col style={{alignItems:"center"}}>
             <h3>
@@ -267,6 +265,7 @@ export default function Tasklist() {
             
             </Col>
            
+            Descripcion:<br/>
             {localTareas[tareaSeleccionada] != undefined  || localTareas[tareaSeleccionada] == [] ?
             localTareas[tareaSeleccionada].description :
             ""}

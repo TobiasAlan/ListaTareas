@@ -78,29 +78,29 @@ export default function Login () {
 
     return (
         <Layout>
-            <Header>
-                <div style={{color: 'white'}}>Bienvenido a la lista de tareas!</div>
+            <Header style={{background:"#0060A0"}}>
+                <div style={{color: 'white', borderColor:"#0060A0"}}>¡BIENVENIDO A LA LISTA DE TAREAS</div>
             </Header>
             
-            <Content>
+            <Content style={{background:"#fffded"}}>
             <div id="FilasLogin">
                 <Col>
                 <div style={{paddingTop:20}}/>
                 <Input size="small" placeholder="Correo del usuario"
                 value={userName} onChange={cambiarUserName}
-                style={{textAlign:'center'}}
+                style={{borderColor:'black', borderStyle:"double"}}
                 />
                 </Col>
                 <div style={{paddingTop:20}}/>
                 <Col>
                 <Input.Password size="small" placeholder="Contraseña"
                 value={userPass} onChange={cambiarUserPass}
-                style={{textAlign:'center'}}
+                style={{borderColor:'black', borderStyle:"double"}}
                 />
                 </Col>
             </div>
             <div style={{paddingTop:20}}/>
-            <Button onClick={login}>Ingresar</Button>
+            <Button onClick={login} style={{borderColor:'black'}}>Ingresar</Button>
             
             <div>
 
@@ -109,29 +109,30 @@ export default function Login () {
             <Col>
             <Input size="small" placeholder="Nombre Usuario"
             value={newUserName} onChange={cambiarNewUserName}
-            style={{textAlign:'center'}}
+            style={{borderColor:'black', borderStyle:"double"}}
             />
             </Col>
             <div style={{paddingTop:20}}/>
             <Col>
             <Input size="small" placeholder="Correo"
             value={newUserMail} onChange={cambiarNewUserMail}
-            style={{textAlign:'center'}}
+            style={{borderColor:'black', borderStyle:"double"}}
             />
             </Col>
             <div style={{paddingTop:20}}/>
             <Col>
             <Input.Password size="small" placeholder="Contraseña"
             value={newUserPass} onChange={cambiarNewUserPass}
-            styles={{textAlign:'center'}}
+            style={{ borderColor:'black', borderStyle:"double"}}
             />
             </Col>
 
             <div>
             <div style={{paddingTop:20}}/>
-            <Button onClick={crearCuenta}>Crear cuenta</Button>
+            <Button onClick={crearCuenta} style={{borderColor:'black'}}>Crear cuenta</Button>
             </div>
             </div>
+            <div style={{paddingBottom:20}}/>
 
             </Content>
             
