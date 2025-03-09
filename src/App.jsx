@@ -7,6 +7,7 @@ import Tasklist from './components/Tasklist'
 import { AuthProvider } from './hooks/useAuth'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import Login from './components/Login'
+import Signup from './components/Signup'
 
 
 function App() {
@@ -30,6 +31,11 @@ function App() {
         <Route
           path='/Login'
           element={<Login/>}
+        />
+
+        <Route 
+          path='/Signup'
+          element={<Signup/>}
         />
 
         <Route
